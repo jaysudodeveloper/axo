@@ -1,12 +1,17 @@
-class Axo {
+/* global XMLHttpRequest */
+/**
+ * Axo Class Definition
+ * @author will-shaw
+ */
+class Axo { // eslint-disable-line no-unused-vars
   constructor (options) {
     this.callbacks = {}
     this.uri = options.hasOwnProperty('uri') ? options.uri : '/'
     this.method = options.hasOwnProperty('method') ? options.method : 'GET'
     this.data = options.hasOwnProperty('data') ? options.data : null
-    this.contentType = options.hasOwnProperty('contentType') ?
-      options.contentType :
-      'application/x-www-form-urlencoded; charset=UTF-8'
+    this.contentType = options.hasOwnProperty('contentType')
+      ? options.contentType
+      : 'application/x-www-form-urlencoded; charset=UTF-8'
     this.accept = options.hasOwnProperty('accept') ? options.accept : '*/*'
 
     for (const key in options) {
