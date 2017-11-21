@@ -44,9 +44,18 @@ class Axo { // eslint-disable-line no-unused-vars
     this.req.send(this.data)
   }
 
+  convert (data) {
+    try {
+      data = JSON.parse(data)
+    } catch (err) {
+      // Will attempt to convert, if failed returns original data.
+    }
+    return data
+  }
+
   handleResponse (event) {
     let code = event.target.status
-    let response = event.target.response
+    let response = this.convert(event.target.response)
     let error = code >= 400 ? new Error(event.target.statusText) : null
 
     if (this.callbacks[code]) {
