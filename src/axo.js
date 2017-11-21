@@ -2,17 +2,26 @@
 /**
  * Axo Class Definition
  * @author will-shaw
+ * @license MIT
  */
+
 class Axo { // eslint-disable-line no-unused-vars
   constructor (options) {
+    this.defaults = {
+      method: 'GET',
+      uri: '/',
+      data: null,
+      contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+      accept: '*/*'
+    }
+
     this.callbacks = {}
-    this.uri = options.hasOwnProperty('uri') ? options.uri : '/'
-    this.method = options.hasOwnProperty('method') ? options.method : 'GET'
-    this.data = options.hasOwnProperty('data') ? options.data : null
-    this.contentType = options.hasOwnProperty('contentType')
-      ? options.contentType
-      : 'application/x-www-form-urlencoded; charset=UTF-8'
-    this.accept = options.hasOwnProperty('accept') ? options.accept : '*/*'
+
+    this.uri = options.uri || this.defaults.uri
+    this.method = options.method || this.defaults.method
+    this.data = options.data || this.defaults.data
+    this.contentType = options.contentType || this.defaults.contentType
+    this.accept = options.accept || this.defaults.accept
 
     for (const key in options) {
       if ((!isNaN(key) && (key >= 100 && key <= 511)) ||
