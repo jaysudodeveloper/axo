@@ -44,36 +44,45 @@ class Axo { // eslint-disable-line no-unused-vars
     this.req.send(this.data)
   }
 
+  convert (data) {
+    try {
+      data = JSON.parse(data)
+    } catch (err) {
+      // Will attempt to convert, if failed returns original data.
+    }
+    return data
+  }
+
   handleResponse (event) {
     let code = event.target.status
-    let response = event.target.response
+    let response = this.convert(event.target.response)
     let error = code >= 400 ? new Error(event.target.statusText) : null
 
-    if (this.callbacks.hasOwnProperty(code)) {
+    if (this.callbacks[code]) {
       this.callbacks[code](error || response, this.req)
     }
-    if (!error && this.callbacks.hasOwnProperty('success')) {
+    if (!error && this.callbacks.success) {
       this.callbacks.success(response, this.req)
-    } else if (this.callbacks.hasOwnProperty('error')) {
+    } else if (this.callbacks.error) {
       this.callbacks.error(error, this.req)
     }
-    if (this.callbacks.hasOwnProperty('always')) {
+    if (this.callbacks.always) {
       this.callbacks.always(error || response, this.req)
     }
   }
 
   success (callback) {
-    this.callbacks['success'] = callback
+    this.callbacks.success = callback
     return this
   }
 
   error (callback) {
-    this.callbacks['error'] = callback
+    this.callbacks.error = callback
     return this
   }
 
   always (callback) {
-    this.callbacks['always'] = callback
+    this.callbacks.always = callback
     return this
   }
 }
